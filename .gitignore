@@ -1,0 +1,25 @@
+#GIT Ignores 
+# Eclipse
+.settings
+*.launch
+.sharedavm
+.externalToolBuilder
+
+# progress
+*.r
+*.xref
+*.dbg
+*.run
+*.preprocess
+*.strxref
+*.crc
+*.inc
+# misc
+*.tmp
+*.bak
+*.swp
+.bk
+*.log
+d2utmpa*
+results.xml
+
