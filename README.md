@@ -23,3 +23,6 @@ PDSOE is based on Eclipse, so to import:
 - Expand Git and choose Projects from git
 - Then Clone URI
 - For Wizard leave it at "Import existing Eclipse projects"
+
+**SUBMIT COMPLETED CODE BY EMAIL TO Devgroupssnc@ifdsgroup.com AS AN ATTACHED ZIP WITHOUT BINARIES.**
+**PLEASE NOTE YOUR FULL NAME IN THE BODY OF THE EMAIL.**
