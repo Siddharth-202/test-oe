@@ -6,12 +6,36 @@
 /*
    populate the temp-table ttCityPair with all combinations
    of the provided cities.
-*/
-procedure createCityPairs:
-    define input parameter pCityNames as character no-undo.
 
-    //TODO: implement this, feel free to create
-    //     other functions/procedures if you need
+  */{tables.i}
+DEFINE VARIABLE i AS INTEGER  INIT 1   NO-UNDO.  
+procedure createCityPairs:
+    DEFINE BUFFER bttCityGeo FOR ttCityGeo.
+    define input parameter pCityNames as character no-undo.
+    DO WHILE i <= NUM-ENTRIES(pCityNames):
+      
+       FIND FIRST ttCityGeo WHERE city-name <> ENTRY(i,pCityNames) NO-ERROR.
+       IF AVAILABLE ttCityGeo THEN
+          CREATE ttCityPair.
+          ASSIGN
+             city-name1 =  ttCityGeo.city-name 
+             latitude1  =  ttCityGeo.latitude  
+             longitude1 =  ttCityGeo.longitude. 
+       FIND FIRST bttCityGeo WHERE bttCityGeo.city-name = ENTRY(i,pCityNames) NO-ERROR.
+       IF AVAILABLE bttCityGeo THEN
+          ASSIGN   
+             city-name2 = bttCityGeo.city-name  
+             latitude2  = bttCityGeo.latitude   
+             longitude2 = bttCityGeo.longitude. 
+
+        i = i + 1.
+      
+      
+    END.
+
+/*     //TODO: implement this, feel free to create   */
+/*     //     other functions/procedures if you need */
+
         
 end procedure.  
 
@@ -22,8 +46,27 @@ end procedure.
 procedure validateCommandline:
     define input parameter pCityNames as character.
     
-    //TODO: validate input in the form 'a,b,c' 
-    //      against ttCityGeo
+/*     //TODO: validate input in the form 'a,b,c' */
+/*     //      against ttCityGeo                  */
+    DEFINE VARIABLE vcityname AS CHARACTER  EXTENT 10  NO-UNDO.
+    FOR EACH ttCityGeo 
+        WHERE city-name NE "" BY city-name:
+       vcityname[i] = ttCityGeo.city-name.
+       i = i + 1.
+    END.
+
+    i = 1.
+
+    DO WHILE i <= NUM-ENTRIES(pCityNames):
+      IF NOT vcityname[i] = ENTRY(i,pCityNames) THEN DO:
+          MESSAGE i vcityname[i] SKIP ENTRY(i,pCityNames) 
+              VIEW-AS ALERT-BOX INFO BUTTONS OK.
+          MESSAGE "Record is not in form of a,b,c"
+              VIEW-AS ALERT-BOX INFO BUTTONS OK.
+        i = i + 1.
+       NEXT.
+       END.
+    END.
     
 end procedure.
 
@@ -32,7 +75,7 @@ procedure loadData:
   define variable acRow as character extent 5 no-undo.
   define variable idx as integer init 1.
     
-    input from "latlong.csv".
+    input from "E:\Python\ML\latlong.csv".
     
     repeat:
         if idx > 1 then do:
@@ -55,4 +98,3 @@ procedure printResult:
     end.
 end procedure.
 
-        
